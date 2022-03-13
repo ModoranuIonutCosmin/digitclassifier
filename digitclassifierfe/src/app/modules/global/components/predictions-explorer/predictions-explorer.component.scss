@@ -1,0 +1,24 @@
+
+header{
+  text-align: center;
+  margin-bottom: 50px;
+}
+section {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+
+  img {
+    max-width: 400px;
+    max-height: 120px;
+    border: 1px solid navy ;
+    margin-right: 10px;
+  }
+}
+pagination-controls{
+  padding: 20px 0px 50px 0px;
+}
+.pagination{
+  display: flex;
+  justify-content: center;
+}

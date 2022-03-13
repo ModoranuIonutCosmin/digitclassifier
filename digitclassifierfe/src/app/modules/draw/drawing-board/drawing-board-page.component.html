@@ -1,0 +1,47 @@
+<!--<app-header-menu></app-header-menu>-->
+
+<div class="predictor">
+  <header>
+    <h1>Drawing board</h1>
+  </header>
+  <p>
+    <strong>HINT:</strong> Try drawing a digit on the canvas below and see if it was predicted
+    properly.
+  </p>
+
+  <div class="board">
+    <div class="canvas">
+      <app-drawing-canvas (result)="updateBoard($event)"
+                          [height]="this.canvasWidth" [id]="'canvas'" [width]="this.canvasWidth"
+                          [brushSize]="this.brushSize"></app-drawing-canvas>
+    </div>
+
+    <section class="results">
+
+
+      <h2>Prediction details</h2>
+
+      <p *ngIf="!infoVisible">
+        After drawing a digit, a prediction based on the drawing will apear here.
+      </p>
+      <div *ngIf="infoVisible">
+        <p><strong>Digit predicted:</strong> {{this.boardInfo.digitPredicted}}</p>
+        <p><strong>Prediction confidence:</strong> {{this.boardInfo.predictionLikelihood}}</p>
+
+        <p>Rate the prediction:</p>
+
+        <a *ngFor="let item of this.starList; let i=index " (click)="this.submitRating(i)">
+          <mat-icon *ngIf="!item" aria-hidden="false" aria-label="Rating">star</mat-icon>
+          <mat-icon *ngIf="item"aria-hidden="false" aria-label="Rating">star_border</mat-icon>
+        </a>
+        <br>
+        Rating :- {{rating}} stars
+
+      </div>
+
+
+    </section>
+  </div>
+
+</div>
+

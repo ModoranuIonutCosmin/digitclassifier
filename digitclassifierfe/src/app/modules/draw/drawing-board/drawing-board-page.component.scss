@@ -1,0 +1,36 @@
+
+.predictor {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+.board {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.canvas{
+  width: 50%;
+  margin: 10px;
+}
+
+.results{
+  width: 45%;
+}
+
+@media only screen and (max-width: 500px) {
+  .canvas{
+    width: 90%;
+    height: 90%;
+  }
+
+  .results{
+    width: 90%;
+  }
+
+  .board{
+    flex-direction: column;
+  }
+}
+

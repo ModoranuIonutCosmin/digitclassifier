@@ -1,0 +1,42 @@
+
+section{
+  display: flex;
+  width: 100%;
+  img{
+    border: navy solid 3px;
+    margin: 0 30px 30px 30px;
+    max-width: 500px;
+    max-height: 500px;
+  }
+}
+
+@media only screen and (min-width: 651px) and (max-width: 810px) {
+  section {
+    img{
+      max-width: 300px;
+      max-height: 300px;
+    }
+  }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 650px) {
+  section {
+    text-align: center;
+    display: block;
+    img{
+      max-width: 280px;
+      max-height: 280px;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  section {
+    display: block;
+    text-align: center;
+    img{
+      max-width: 180px;
+      max-height: 180px;
+    }
+  }
+}

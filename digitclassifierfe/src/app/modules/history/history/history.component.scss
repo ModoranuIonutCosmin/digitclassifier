@@ -1,0 +1,69 @@
+/* Structure */
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  //min-height: 200px;
+  //max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-rate-limit-reached {
+  //max-width: 360px;
+  text-align: center;
+}
+
+.images {
+  max-width: 200px;
+}
+
+///* Column Widths */
+//.mat-column-number,
+//.mat-column-state {
+//  max-width: 64px;
+//}
+//
+//.mat-column-created {
+//  max-width: 124px;
+//}
+//
+//.example-card {
+//  max-width: 800px;
+//}
+//.mat-cell{
+//  font-size:12px;
+//  font-family: Verdana,Sans-Serif;
+//  display: table-cell;
+//  height: 48px;
+//  vertical-align: middle;
+//  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+//  border-top: 1px solid rgba(0, 0, 0, 0.12);
+//  border-left: 2px solid rgba(0, 0, 0, 0.12);
+//  border-right: 2px solid rgba(0, 0, 0, 0.12);
+//}
+//::ng-deep .mat-paginator-page-size{
+//  display: none !important;
+//}
+//
+::ng-deep .mat-paginator-range-label{
+  display: none !important;
+}

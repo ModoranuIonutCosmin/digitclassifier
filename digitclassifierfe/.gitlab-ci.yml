@@ -1,0 +1,64 @@
+image: node:14.18.0
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+stages:
+    - dependencies
+    - test
+    - build
+    - deploy
+
+install_dependencies:
+    stage: dependencies
+    script:
+      - npm install
+    cache:
+      key:
+        files:
+          - package-lock.json
+      paths:
+          - node_modules
+build_image:
+  stage: build
+  script:
+    - npm link @angular/cli@12.2.6
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+sonarcloud-check:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  only:
+    - merge_requests
+    - main
+    - develop
+deploy:
+    stage: deploy
+    image: docker:20.10.8-dind
+    services:
+        - docker:dind
+    dependencies:
+        - build_image
+    script:
+     - docker login  --username=_ --password="${DOCKER_PASSWD}" registry.heroku.com
+     - docker build -t registry.heroku.com/digitclassifierfe/web:latest .
+     - docker tag registry.heroku.com/digitclassifierfe/web:latest registry.heroku.com/digitclassifierfe/web:latest
+     - docker push registry.heroku.com/digitclassifierfe/web:latest
+     - docker run --rm -e HEROKU_API_KEY="${DOCKER_PASSWD}" wingrunr21/alpine-heroku-cli container:release web --app digitclassifierfe
+    only:
+     - main

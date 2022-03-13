@@ -1,0 +1,61 @@
+image: mcr.microsoft.com/dotnet/sdk:5.0-buster-slim
+
+stages:
+    - build
+    # - test
+    - sonarcloud-check
+    - deploy
+.before_script_template: &before_dotnet
+    before_script:
+        - "cd src/Api"
+        - "dotnet restore"
+
+variables:
+    integrationTests: "../../tests/Api.IntegrationTests"
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+build:
+    stage: build
+    <<: *before_dotnet
+    script:
+        - "dotnet build"
+
+# test:integration:
+#     stage: test
+#     <<: *before_dotnet
+#     script: 
+#         - "cd $integrationTests"
+#         - "dotnet test"  
+#     dependencies:
+#         - build
+
+sonarcloud-check:
+  stage: sonarcloud-check
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  only:
+    - merge_requests
+    - main
+    - develop
+deploy:
+    stage: deploy
+    image: docker:20.10.8-dind
+    services:
+        - docker:dind
+    dependencies:
+        - build
+    script:
+     - docker login  --username=_ --password="${DOCKER_PASSWD}" registry.heroku.com
+     - docker build -t registry.heroku.com/digitclassifierml/web:latest .
+     - docker tag registry.heroku.com/digitclassifierml/web:latest registry.heroku.com/digitclassifierml/web:latest
+     - docker push registry.heroku.com/digitclassifierml/web:latest
+     - docker run --rm -e HEROKU_API_KEY="${DOCKER_PASSWD}" wingrunr21/alpine-heroku-cli container:release web --app digitclassifierml
+    only:
+     - main

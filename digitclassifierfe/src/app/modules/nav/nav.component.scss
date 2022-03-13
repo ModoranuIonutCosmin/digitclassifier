@@ -1,0 +1,55 @@
+
+.dropdown-toggle, .dropdown-item {
+  cursor: pointer;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar{
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+}
+
+.navbar-brand {
+  margin-right: 30px;
+}
+
+.navbar-nav{
+  flex-direction: row;
+  padding: 0;
+  li {
+    margin: 0px 15px;
+  }
+}
+
+.nav-item, .nav-link {
+  display: inline-flex;
+
+}
+
+.nav-item {
+  margin: 0px 7px;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar, .container {
+    display: block;
+    text-align: center;
+  }
+
+  ul {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .navbar-nav{
+    flex-direction: row;
+  }
+}
+
+
+
+

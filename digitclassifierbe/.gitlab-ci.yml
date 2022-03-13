@@ -1,0 +1,75 @@
+image: mcr.microsoft.com/dotnet/sdk:5.0-buster-slim
+
+stages:
+    - build
+    - test
+    - sonar_scan
+    - deploy
+.before_script_template: &before_dotnet
+    before_script:
+        - "cd src/Api"
+        - "dotnet restore"
+
+variables:
+    unitTests: "../../tests/Application.UnitTests"
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
+build:
+    stage: build
+    <<: *before_dotnet
+    script:
+        - "dotnet build"
+
+test:unit:
+    stage: test
+    <<: *before_dotnet
+    script: 
+        - "cd $unitTests"
+        - "dotnet test"
+    dependencies:
+        - build
+
+sonar_scan:
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+  stage: sonar_scan
+  allow_failure: true
+  script:
+    - cat /etc/os-release
+    - dotnet tool install --global dotnet-sonarscanner 
+    - dotnet tool install --global coverlet.console
+    - cd tests/Application.UnitTests
+    - dotnet add package coverlet.msbuild
+    - export PATH="$PATH:/root/.dotnet/tools"
+    - apt-get update
+    - apt-get install default-jre -y
+    - dotnet test $unitTests/Application.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    - > 
+        dotnet-sonarscanner
+        begin
+        /k:digitclassifier_digitclassifierbe 
+        /o:digitclassifier 
+        /d:sonar.host.url="https://sonarcloud.io"
+        /d:sonar.exclusions="**/wwwroot/**, **/obj/**, **/bin/**,**/Migrations/**,**/Attributes/**,**/Middleware/**,**Program.cs**,**Startup.cs**,**/ResponseHelpers/**,**/tests/**",**/Exceptions/**
+        /d:sonar.cs.opencover.reportsPaths="$unitTests/coverage.opencover.xml" 
+        /d:sonar.coverage.exclusions="**Test*.cs"
+
+
+    - dotnet build ../../src/Api
+    - dotnet-sonarscanner end 
+
+deploy:
+    stage: deploy
+    image: docker:20.10.8-dind
+    services:
+        - docker:dind
+    dependencies:
+        - build
+    script:
+     - docker login  --username=_ --password="${DOCKER_PASSWD}" registry.heroku.com
+     - docker build -t registry.heroku.com/digitclassifierbe/web:latest .
+     - docker tag registry.heroku.com/digitclassifierbe/web:latest registry.heroku.com/digitclassifierbe/web:latest
+     - docker push registry.heroku.com/digitclassifierbe/web:latest
+     - docker run --rm -e HEROKU_API_KEY="${DOCKER_PASSWD}" wingrunr21/alpine-heroku-cli container:release web --app digitclassifierbe
+    only:
+     - main

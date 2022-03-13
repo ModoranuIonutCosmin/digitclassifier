@@ -1,0 +1,28 @@
+<main>
+  <section *ngIf="!(this.loader$ | async)">
+
+    <img [src]="data.prediction.image != undefined
+            ? this._sanitizer.bypassSecurityTrustResourceUrl(
+                'data:image/jpg;base64,' + data.prediction.image
+              ): 'sample.png'"/>
+    <div>
+      <header>
+        <h1>Prediction summary</h1>
+      </header>
+      <p><strong>Digit predicted:</strong> {{data.prediction.predictedDigit}}</p>
+      <p><strong>Prediction confidence:</strong> {{data.prediction.predictionProbability}}</p>
+      <p>The date this prediction was made: {{data.prediction.dateTime | date: 'long'}}.</p>
+
+      <p *ngIf="myRating!=0">You've rated this prediction {{this.myRating}} stars.</p>
+      <p *ngIf="myRating==0">Rate this prediction by clicking on the stars!</p>
+      <a *ngFor="let item of this.litStars; let i=index" (click)="submitRating(i)">
+        <mat-icon *ngIf="item" aria-hidden="false" aria-label="Rating">star</mat-icon>
+        <mat-icon *ngIf="!item" aria-hidden="false" aria-label="Rating">star_border</mat-icon>
+      </a>
+      <p>Average rating :- {{data.averageRating}} stars </p>
+      <p>This prediction was rated by <strong>{{data.ratingVotesCount}}</strong> people.</p>
+
+    </div>
+
+  </section>
+</main>

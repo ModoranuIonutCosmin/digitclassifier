@@ -1,0 +1,39 @@
+
+<main *ngIf="!(this.loader$ | async)">
+  <header>
+    <h1>Explore popular predictions, here.</h1>
+    <p>You may also rate these predictions by clicking one of them and then
+    clicking on the stars to submit your rating.</p>
+  </header>
+
+  <div *ngFor="let entry of this.data | paginate: this.paginationConfig; let entryIndex = index">
+
+    <section [routerLink]="[this.entry.prediction.id]">
+      <img [src]="entry.prediction.image != undefined
+            ? this._sanitizer.bypassSecurityTrustResourceUrl(
+                'data:image/jpg;base64,' + entry.prediction.image
+              ): 'sample.png'"/>
+      <div>
+        <p><strong>Digit predicted:</strong> {{entry.prediction.predictedDigit}}</p>
+        <p><strong>Prediction confidence:</strong> {{entry.prediction.predictionProbability}}</p>
+<!--        <p>{{entry.prediction.id}}</p>-->
+
+        <a *ngFor="let item of this.ratingStars[entryIndex]; let i=index ">
+          <mat-icon *ngIf="item" aria-hidden="false" aria-label="Rating">star</mat-icon>
+          <mat-icon *ngIf="!item" aria-hidden="false" aria-label="Rating">star_border</mat-icon>
+        </a>
+        <p>Average rating :- {{entry.averageRating}} stars </p>
+        <p>This prediction was rated by <strong>{{entry.ratingVotesCount}} people.</strong></p>
+
+      </div>
+    </section>
+    <hr>
+  </div>
+  <div class ="pagination">
+    <pagination-controls
+      (pageChange)="pageChanged($event)"
+      class="float-right">
+    </pagination-controls>
+  </div>
+</main>
+

@@ -1,0 +1,21 @@
+$content-width: 75%;
+@use "sass:math";
+section{
+  position: static;
+  width: $content-width;
+  left:  math.div(100% - $content-width, 2)
+}
+header
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px 0 #111111;
+
+  section {
+     position: relative;
+}
+}

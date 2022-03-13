@@ -1,0 +1,22 @@
+<!--<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">-->
+<!--  <div class="navbar-nav">-->
+<!--    <a class="nav-item nav-link" routerLink="/">Home</a>-->
+<!--    <a class="nav-item nav-link" (click)="logout()">Logout</a>-->
+<!--  </div>-->
+<!--</nav>-->
+<app-nav></app-nav>
+<!--<app-header-menu></app-header-menu>-->
+
+<!-- main app container -->
+
+  <div class="containerCustom">
+    <mat-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-spinner>
+
+    <app-alert></app-alert>
+    <div class="routerWrapper">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+

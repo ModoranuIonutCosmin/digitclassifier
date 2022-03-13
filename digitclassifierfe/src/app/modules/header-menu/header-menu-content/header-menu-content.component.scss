@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap');
+
+a
+{
+  text-decoration: none;
+  color: #111;
+  cursor: pointer;
+}
+section {
+  padding: 1em 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-content: space-between;
+  justify-content: space-between;
+}
+h1 {
+  padding: 3px 0 0 0;
+  margin: 0;
+  float: left;
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+}
+ul
+{
+  li {
+    padding: 10px;
+    float: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+  }
+}

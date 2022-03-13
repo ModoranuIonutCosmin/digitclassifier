@@ -1,0 +1,35 @@
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" routerLink='/' routerLinkActive='active'>DigitClassifier</a>
+
+    <ul class="navbar-nav">
+      <ng-container *ngIf="accountService.currentUser | async">
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/' routerLinkActive='active'>Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/history' routerLinkActive='active'>History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/favorites' routerLinkActive='active'>Favorites</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/global' routerLinkActive='active'>Global Submissions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/' routerLinkActive='active' (click)="logout()">Logout</a>
+        </li>
+      </ng-container>
+
+      <ng-container *ngIf="!(accountService.currentUser | async)">
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/login' routerLinkActive='active'>Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink='/register' routerLinkActive='active'>Register</a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</nav>
+
