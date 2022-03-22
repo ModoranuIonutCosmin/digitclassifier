@@ -1,19 +1,26 @@
 # Digit classifier web app SaaS
-Team project, this repo is a mirror [this](https://gitlab.com/digitclassifier) one over on GitLab.
+Team project, this repo mirrors [this](https://bit.ly/3DgdNuN) one over on GitLab.
 
 ## Summary
 A web software solution that provides the following features:
-* Allows users to draw a digit to a canvas and predicts that digit using a ML.NET classifier.
-* Tracks history for every logged in user, including a photo of the drawing an the prediction result of the algorithm.
+* Allows users to draw a digit into a canvas and it predicts that digit using a ML.NET classifier.
+* Tracks history for every logged in user, including a photo of the drawing and the prediction result of the algorithm.
 * Allows adding predictions from history to favorites.
 * Shows all drawing made by users in a Global tab from where any user can give ratings stars.
 * These drawings are filtered by rating & rating count and added to the dataset of the ML model to improve accuracy (extending a MNIST-like dataset).
 
 ## Demo
 A *short* summary of all features is presented in the video below.
-If you want to try the app yourself you can access _this_ deployed version which
+If you want to try the app yourself you can access [this](https://bit.ly/3itp0yd) deployed version which
 may be slow at first operation due to it being hosted on a free development deployment slot,
 app having to cold-start.
+
+
+See the video below:
+
+[![Demo](https://i.imgur.com/8S46BRJ.png)](https://bit.ly/3uh9cnJ "Digit Classifier")
+
+Alt: [click](https://bit.ly/3uh9cnJ)
 
 ## Technologies
 
